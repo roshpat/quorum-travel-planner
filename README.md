@@ -4,6 +4,8 @@ Quorum is a polished React prototype for a Purdue ECE Senior Design project. It 
 
 The prototype deliberately focuses on a coherent end-to-end planning flow instead of attempting the eventual product's booking, optimization, authentication, or payment features.
 
+> **Local prototype:** Quorum does not require a ChatGPT account, application login, or authentication provider. Run it with Vite and open the local URL in any browser.
+
 ## Senior Design connection
 
 The eventual Senior Design system is intended to take a group trip from an initial idea to a negotiated, budgeted, and settled itinerary. Future versions may consider every traveler's dates, departure airport, budget, and preferences; compare flights and lodging; synchronize multiple users; and calculate final settlements.
@@ -97,7 +99,17 @@ Copy-Item .env.example .env
 npm run dev
 ```
 
+On Windows PowerShell, if script execution policy blocks `npm.ps1`, use the command wrapper instead:
+
+```powershell
+npm.cmd run dev
+```
+
+This does not require changing the system execution policy.
+
 Open the local URL printed by Vite. The application still runs without a Google key; Explore shows a useful setup state while Dashboard, Trip Setup, Itinerary, AI Planner, and Expenses remain functional.
+
+No sign-in is required. All prototype data remains in that browser's localStorage.
 
 Useful checks:
 
@@ -166,10 +178,12 @@ The search form calls the current Promise-based `Place.searchByText()` API. Its 
 
 ```text
 id, displayName, formattedAddress, location,
-rating, primaryTypeDisplayName, photos
+primaryTypeDisplayName
 ```
 
 The explicit field mask keeps the response understandable and avoids requesting unused billable data. The selected `Place` is converted to Quorum's own serializable `Place` type. Its `LatLng` location becomes numeric latitude and longitude, the map pans to that coordinate, zoom changes to a place-level view, and an Advanced Marker appears.
+
+The current field list is also compatible with Google's official no-cost Maps Demo Key. Demo Keys do not provide user-generated content such as place photos or reviews, so those fields are intentionally not requested in this local prototype.
 
 Saved markers use `google.maps.marker.AdvancedMarkerElement` with a map ID (`DEMO_MAP_ID` for this learning prototype), matching Google's current marker guidance. Saved places are copied into the itinerary state rather than storing Google objects directly; Google Maps class instances are not suitable for JSON/localStorage.
 

@@ -3,6 +3,13 @@ import { defaultState } from "../data/defaults";
 import type { Expense, ItineraryItem, Place, TravelState, Trip } from "../types";
 
 const STORAGE_KEY = "quorum-travel-state-v1";
+const LEGACY_TRAVELERS = ["Alex", "Sam", "Jordan", "You"];
+const LEGACY_PAYER_NAMES: Record<string, string> = {
+  Alex: "Dylan",
+  Sam: "Aakarsh",
+  Jordan: "Zach",
+  You: "Roshan",
+};
 
 interface TravelContextValue extends TravelState {
   storageWarning: string;
@@ -26,12 +33,18 @@ function loadState(): { state: TravelState; warning: string } {
     if (!parsed.trip || !Array.isArray(parsed.itinerary) || !Array.isArray(parsed.expenses)) {
       throw new Error("Saved data is incomplete");
     }
+    const savedTravelers = Array.isArray(parsed.travelers) ? parsed.travelers : defaultState.travelers;
+    const isLegacySample = savedTravelers.length === LEGACY_TRAVELERS.length
+      && savedTravelers.every((traveler, index) => traveler.name === LEGACY_TRAVELERS[index]);
     return {
       state: {
         trip: { ...defaultState.trip, ...parsed.trip },
-        travelers: Array.isArray(parsed.travelers) ? parsed.travelers : defaultState.travelers,
+        travelers: isLegacySample ? defaultState.travelers : savedTravelers,
         itinerary: parsed.itinerary,
-        expenses: parsed.expenses,
+        expenses: parsed.expenses.map((expense) => ({
+          ...expense,
+          paidBy: LEGACY_PAYER_NAMES[expense.paidBy] ?? expense.paidBy,
+        })),
       },
       warning: "",
     };

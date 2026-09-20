@@ -26,9 +26,7 @@ export function placeToSavedPlace(place: google.maps.places.Place): Place | null
     address: place.formattedAddress || "Address unavailable",
     latitude: location.lat(),
     longitude: location.lng(),
-    rating: place.rating ?? undefined,
     category: place.primaryTypeDisplayName ?? undefined,
-    photoUrl: place.photos?.[0]?.getURI({ maxWidth: 900, maxHeight: 560 }),
   };
 }
 
@@ -36,7 +34,10 @@ export async function searchPlaces(query: string): Promise<Place[]> {
   const { Place: GooglePlace } = await importLibrary("places");
   const response = await GooglePlace.searchByText({
     textQuery: query,
-    fields: ["id", "displayName", "formattedAddress", "location", "rating", "primaryTypeDisplayName", "photos"],
+    // The official Maps Demo Key supports the Place class but excludes
+    // user-generated content such as photos and reviews, so keep this field
+    // request to the reliable prototype essentials.
+    fields: ["id", "displayName", "formattedAddress", "location", "primaryTypeDisplayName"],
     maxResultCount: 6,
   });
   return response.places.map(placeToSavedPlace).filter((place): place is Place => place !== null);

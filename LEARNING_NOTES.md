@@ -82,15 +82,13 @@ Place.searchByText({
     "displayName",
     "formattedAddress",
     "location",
-    "rating",
     "primaryTypeDisplayName",
-    "photos",
   ],
   maxResultCount: 6,
 });
 ```
 
-This is the modern `Place` class, not the older callback-based `PlacesService`. The field list matters: Places data is field-based, so asking for only what the UI uses reduces unnecessary data and can reduce cost.
+This is the modern `Place` class, not the older callback-based `PlacesService`. The field list matters: Places data is field-based, so asking for only what the UI uses reduces unnecessary data and can reduce cost. The prototype omits photos and reviews so the same request also works with Google's official Maps Demo Key.
 
 The interface is a text search rather than type-ahead autocomplete. Both are Places experiences, but this prototype uses text search because it naturally supports category phrases and returns a small result list the group can compare. If type-ahead is added later, the current replacement is `PlaceAutocompleteElement`, not the legacy `Autocomplete` widget.
 

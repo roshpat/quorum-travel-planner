@@ -13,7 +13,7 @@ const navigation = [
 ];
 
 export function AppShell() {
-  const { trip, storageWarning } = useTravel();
+  const { trip, travelers, storageWarning } = useTravel();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -33,7 +33,7 @@ export function AppShell() {
           <span>{formatDateRange(trip.startDate, trip.endDate)}</span>
           <div className="mini-people" aria-label={`${trip.travelerCount} travelers`}>
             {Array.from({ length: Math.min(trip.travelerCount, 4) }, (_, index) => (
-              <span key={index}>{["A", "S", "J", "Y"][index] ?? index + 1}</span>
+              <span key={travelers[index]?.id ?? index}>{travelers[index]?.name.charAt(0).toUpperCase() ?? index + 1}</span>
             ))}
             <small>{trip.travelerCount} going</small>
           </div>
@@ -67,7 +67,7 @@ export function AppShell() {
         <header className="mobile-header">
           <button className="icon-button" type="button" onClick={() => setMenuOpen(true)} aria-label="Open navigation">☰</button>
           <NavLink className="brand" to="/"><span className="brand-mark">Q</span><span>quorum</span></NavLink>
-          <span className="mobile-avatar">Y</span>
+          <span className="mobile-avatar">R</span>
         </header>
         {storageWarning && <div className="storage-warning" role="status">{storageWarning}</div>}
         <main className="page-content"><Outlet /></main>

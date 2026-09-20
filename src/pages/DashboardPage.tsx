@@ -4,7 +4,7 @@ import { useTravel } from "../context/TravelContext";
 import { formatCurrency, formatDateRange } from "../utils/format";
 
 export function DashboardPage() {
-  const { trip, itinerary, expenses } = useTravel();
+  const { trip, travelers, itinerary, expenses } = useTravel();
   const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
   const steps = [
     { label: "Set preferences", detail: `${trip.preferences.length} selected`, complete: trip.preferences.length > 0, to: "/trip-setup" },
@@ -19,7 +19,7 @@ export function DashboardPage() {
     <div className="dashboard-page">
       <PageHeader
         eyebrow="Your shared plan"
-        title={`Good morning, traveler.`}
+        title={`Good morning, ${travelers.find((traveler) => traveler.name === "Roshan")?.name ?? "traveler"}.`}
         description={`${trip.name} is taking shape. Here’s where the group stands.`}
         actions={<Link className="button button--primary" to="/trip-setup">Edit trip</Link>}
       />
