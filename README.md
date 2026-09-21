@@ -11,7 +11,7 @@ Quorum is a Purdue ECE Senior Design prototype for planning group trips in one s
 - Local prototype travel-planning assistant
 - Responsive desktop and mobile interface
 
-The included example trip uses Dylan, Aakarsh, Zach, and Roshan as the travelers.
+The included example trip uses our group: Dylan, Aakarsh, Zach, and Roshan as the travelers.
 
 ## Run locally
 
@@ -20,14 +20,6 @@ Requirements: Node.js 20 or newer and npm.
 ```bash
 npm install
 ```
-
-Copy `.env.example` to `.env` and optionally add a Google Maps browser key:
-
-```dotenv
-VITE_GOOGLE_MAPS_API_KEY=your_key_here
-```
-
-Enable the **Maps JavaScript API** and **Places API** for that key. Google's official demo key can also be used for prototype testing.
 
 Start the application:
 
@@ -43,8 +35,6 @@ npm.cmd run dev
 ```
 
 Open the local address shown by Vite, normally `http://localhost:5173`.
-
-No ChatGPT account or application sign-in is required. Prototype data is stored in the browser's local storage.
 
 ## Technology
 
